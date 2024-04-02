@@ -338,51 +338,59 @@ namespace Gestao_de_Alunos
         {
             string codigoAluno;
 
+            // Verifica se há alunos na lista
             if (sAlu.Length > 0)
             {
-                MostrarAlunos(sAlu, 0);
+                MostrarAlunos(sAlu, 0); // Mostra a lista de alunos disponíveis
 
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Qual o código do aluno que quer consultar?");
+                Console.Write("Qual o código do aluno que quer consultar? - ");
                 codigoAluno = Console.ReadLine();
 
                 bool encontrouAluno = false;
-                int flag = 1; // Mostrar informação detalhada do aluno
+                int flag = 1; // Define a flag para mostrar a informação detalhada do aluno
 
+                // Itera sobre todos os alunos
                 foreach (var aluno in sAlu)
                 {
+                    // Verifica se o aluno atual corresponde ao código fornecido pelo utilizador
                     if (aluno.codAlu == codigoAluno)
                     {
-                        MostrarInformacaoAluno(aluno, ref flag);
+                        MostrarInformacaoAluno(aluno, ref flag); // Mostra as informações detalhadas do aluno
                         encontrouAluno = true;
                         break;
                     }
                 }
 
+                // Se o aluno não foi encontrado, informa o utilizador
                 if (!encontrouAluno)
                     Console.WriteLine($"O aluno com o código {codigoAluno} não foi encontrado.");
             }
             else
-                Console.WriteLine("\n Não existem alunos na lista. \n");
+                Console.WriteLine("\n Não existem alunos na lista. \n"); // Mensagem exibida se não houver alunos na lista
         }
 
         // Altera dados de um aluno específico
         static void AlterarDadosAluno(sAluno[] sAlu)
         {
+            // Verifica se há alunos na lista
             if (sAlu.Length > 0)
             {
                 string codigoAluno;
                 bool encontrouAluno = false;
 
+                // Mostra os alunos para que o utilizador possa escolher qual alterar
                 MostrarAlunos(sAlu, 0);
 
                 Console.WriteLine("Qual o código do aluno que quer alterar?");
                 codigoAluno = Console.ReadLine();
 
+                // Itera sobre todos os alunos
                 for (int i = 0; i < sAlu.Length; i++)
                 {
+                    // Verifica se o aluno atual corresponde ao código fornecido pelo utilizador
                     if (sAlu[i].codAlu == codigoAluno)
                     {
+                        // Solicita ao utilizador que insira os novos dados do aluno
                         Console.Write("Insere o nome: ");
                         sAlu[i].nomAlu = Console.ReadLine();
 
@@ -398,6 +406,7 @@ namespace Gestao_de_Alunos
                         Console.Write("Insere o saldo: ");
                         sAlu[i].salAlu = Convert.ToSingle(Console.ReadLine());
 
+                        // Verifica se o saldo do aluno é negativo (indicando dívidas)
                         if (sAlu[i].salAlu < 0)
                             sAlu[i].teveDividas = true;
 
@@ -406,6 +415,7 @@ namespace Gestao_de_Alunos
                     }
                 }
 
+                // Se o aluno não foi encontrado, informa o utilizador
                 if (!encontrouAluno)
                     Console.WriteLine($"O aluno com o código {codigoAluno} não foi encontrado.");
             }
@@ -416,27 +426,33 @@ namespace Gestao_de_Alunos
         // Elimina um aluno da estrutura sAlu
         static void EliminarAluno(ref sAluno[] sAlu)
         {
+            // Verifica se há alunos na lista
             if (sAlu.Length > 0)
             {
                 string codigoAluno;
                 bool encontrouAluno = false;
+                int indexToRemove;
 
+                // Mostra os alunos para que o utilizador possa escolher qual remover
                 MostrarAlunos(sAlu, 1);
 
+                // Solicita o código do aluno que o utilizador deseja remover
                 Console.WriteLine("Qual o código do aluno que deseja eliminar?");
                 codigoAluno = Console.ReadLine();
 
-                int indexToRemove;
+                // Itera sobre todos os alunos na lista
                 for (int i = 0; i < sAlu.Length; i++)
                 {
+                    // Verifica se o código do aluno atual corresponde ao código fornecido pelo utilizador
                     if (sAlu[i].codAlu == codigoAluno)
                     {
+                        // Confirmação da remoção com o utilizador
                         Console.Write($"Pretende eliminar o aluno {codigoAluno}? (s/n): ");
                         if (Console.ReadLine().ToLower() == "s")
                         {
                             indexToRemove = i;
 
-                            // Move elements to fill the space of the removed aluno
+                            // Move os elementos para preencher o espaço do aluno removido
                             for (int j = indexToRemove; j < sAlu.Length - 1; j++)
                             {
                                 sAlu[j] = sAlu[j + 1];
@@ -451,15 +467,16 @@ namespace Gestao_de_Alunos
                         else
                         {
                             Console.WriteLine("Registo não eliminado.");
-                            return; // If user doesn't want to delete, exit the function
+                            return; // Se o utilizador não quer eliminar a função, sai dela.
                         }
                     }
                 }
 
+                // Se o aluno não foi encontrado na lista
                 if (!encontrouAluno)
                 {
                     Console.WriteLine($"O aluno com o código {codigoAluno} não foi encontrado.");
-                    return; // If aluno not found, exit the function
+                    return; // Sai da função
                 }
             }
             else
@@ -469,51 +486,63 @@ namespace Gestao_de_Alunos
         // Paga as propinas de um aluno ou de todos os alunos
         static void PagarPropinas(sAluno[] sAlu)
         {
+            // Verifica se há alunos na lista
             if (sAlu.Length > 0)
             {
                 Console.WriteLine("Deseja pagar as propinas de todos os alunos? S/N");
                 string resposta = Console.ReadLine().ToLower();
 
+                // Se o utilizador optar por pagar as propinas de todos os alunos
                 if (resposta == "s")
                 {
-                    // Iterate over all alunos
+                    // Itera sobre todos os alunos
                     for (int i = 0; i < sAlu.Length; i++)
-                    { 
+                    {
+                        // Itera sobre todos os meses de propinas do aluno atual
                         for (int j = 0; i < sAlu[i].mesesParaPagar[j].mes; j++)
                         {
-                            // Verificar se o mês atual está pago ou não
+                            // Verifica se o mês atual não está pago
                             if (sAlu[i].mesesParaPagar[j + 1].estadoPagamento == false)
                             {
+                                // Marca o mês atual como pago
                                 sAlu[i].mesesParaPagar[j + 1].estadoPagamento = true;
                             }
                         }
 
+                        // Informa que todas as propinas do aluno atual foram pagas
                         Console.WriteLine($"As propinas de todos os meses do aluno {sAlu[i].nomAlu} (Cod:{sAlu[i].codAlu}) já estão pagas.");
                     }
                 }
+                // Se o utilizador optar por pagar as propinas de um aluno específico
                 else
                 {
+                    // Mostra os alunos para que o utilizador possa escolher qual pagar as propinas
                     MostrarAlunos(sAlu, 0);
 
                     Console.Write("Qual é o código de aluno que pretende pagar as propinas? - ");
                     string alunoPagarPropinas = Console.ReadLine();
 
+                    // Itera sobre todos os alunos
                     for (int i = 0; i < sAlu.Length; i++)
-                    { 
+                    {
+                        // Verifica se o aluno atual corresponde ao código fornecido pelo utilizador
                         if (sAlu[i].codAlu == alunoPagarPropinas)
                         {
+                            // Mostra as opções de pagamento de propinas
                             Console.WriteLine("1. Pagar as propinas do mês corrente.");
                             Console.WriteLine("2. Pagar as propinas de outro mês que não seja o mês corrente.");
                             Console.WriteLine($"3. Pagar todas as propinas do aluno {sAlu[i].nomAlu}. \n");
 
+                            // Recebe a escolha do utilizador
                             int escolha = Convert.ToInt32(Console.ReadLine());
 
                             switch (escolha)
                             {
                                 case 1:
+                                    // Verifica se as propinas do mês corrente não foram pagas
                                     if (sAlu[i].mesesParaPagar[DateTime.Now.Month - 1].estadoPagamento == false)
                                     {
-                                        // Atualizar o estado da propina do mês atual para "Pago"
+                                        // Marca as propinas do mês corrente como pagas
                                         sAlu[i].mesesParaPagar[DateTime.Now.Month - 1].estadoPagamento = true;
                                     }
                                     else
@@ -526,9 +555,10 @@ namespace Gestao_de_Alunos
                                     Console.WriteLine("Escreva o número do mês que quer pagar: ");
                                     int mesEscolhido = Convert.ToInt32(Console.ReadLine());
 
+                                    // Verifica se as propinas do mês escolhido não foram pagas
                                     if (sAlu[i].mesesParaPagar[mesEscolhido - 1].estadoPagamento == false)
                                     {
-                                        // Atualizar o estado da propina do mês atual para "Pago"
+                                        // Marca as propinas do mês escolhido como pagas
                                         sAlu[i].mesesParaPagar[mesEscolhido - 1].estadoPagamento = true;
                                     }
                                     else
@@ -538,11 +568,13 @@ namespace Gestao_de_Alunos
                                     break;
 
                                 case 3:
+                                    // Itera sobre todos os meses de propinas do aluno atual
                                     for (int j = 0; j < sAlu[i].mesesParaPagar.Length; j++)
                                     {
+                                        // Verifica se as propinas do mês atual não foram pagas
                                         if (sAlu[i].mesesParaPagar[j].estadoPagamento == false)
                                         {
-                                            // Atualizar o estado da propina do mês atual para "Pago"
+                                            // Marca as propinas do mês atual como pagas
                                             sAlu[i].mesesParaPagar[j].estadoPagamento = true;
                                         }
                                     }
