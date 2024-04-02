@@ -154,6 +154,7 @@ namespace Gestao_de_Alunos
 
                     case 14:
                         Console.Clear(); // Limpa a Consola
+                        ExibirOpcoesEstatisticas(sAlu);
                         break;
                 }
             } while (opcaoMenu != 0);
@@ -163,7 +164,7 @@ namespace Gestao_de_Alunos
         static int ListaMenu()
         {
             // Exibe as opções de menu e retorna a opção escolhida
-            Console.WriteLine("\n Gestão de Alunos");
+            Console.WriteLine("\nGestão de Alunos");
             Console.WriteLine("==========================================");
             Console.WriteLine("1. Inserir Aluno");
             Console.WriteLine("2. Listar Alunos");
@@ -178,6 +179,7 @@ namespace Gestao_de_Alunos
             Console.WriteLine("11. Calcular Aluno que nunca teve dívidas");
             Console.WriteLine("12. Carregar array de Alunos");
             Console.WriteLine("13. Carregar ficheiro com array");
+            Console.WriteLine("14. Estatisticas");
             Console.WriteLine("0. Sair");
 
             Console.Write("Escolhe a opção: ");
@@ -741,5 +743,151 @@ namespace Gestao_de_Alunos
                 }
             }
         }
+
+        // Função para exibir opções de estatísticas
+        static void ExibirOpcoesEstatisticas(sAluno[] sAlu)
+        {
+            Console.WriteLine("\nOpções Estatísticas:");
+            Console.WriteLine("1. Média das idades dos alunos");
+            Console.WriteLine("2. Média das médias dos alunos");
+            Console.WriteLine("3. Número de alunos com saldo negativo");
+            Console.WriteLine("4. Percentagem de alunos com dívidas");
+            Console.WriteLine("5. Todas\n");
+
+            Console.Write("Escolha uma opção: ");
+            int opcao = Convert.ToInt32(Console.ReadLine());
+
+            switch (opcao)
+            {
+                case 1:
+                    CalcularMediaIdades(sAlu);
+                    break;
+
+                case 2:
+                    CalcularMediaMedias(sAlu);
+                    break;
+
+                case 3:
+                    ContarAlunosComSaldoNegativo(sAlu);
+                    break;
+
+                case 4:
+                    CalcularPercentagemAlunosComDividas(sAlu);
+                    break;
+
+                case 5:
+                    CalcularMediaIdades(sAlu);
+                    CalcularMediaMedias(sAlu);
+                    ContarAlunosComSaldoNegativo(sAlu);
+                    CalcularPercentagemAlunosComDividas(sAlu);
+                    break;
+
+                default:
+                    Console.WriteLine("Opção inválida.");
+                    break;
+            }
+        }
+
+        // Calcula a média das idades dos alunos
+        static void CalcularMediaIdades(sAluno[] sAlu)
+        {
+            // Verifica se há alunos na lista
+            if (sAlu.Length > 0)
+            {
+                int somaIdades = 0;
+
+                // Itera sobre cada aluno na lista
+                foreach (var aluno in sAlu)
+                {
+                    // Soma as idades de todos os alunos
+                    somaIdades += aluno.idaAlu;
+                }
+                // Calcula a média das idades 
+                Console.WriteLine($"A média das idades dos alunos é: { somaIdades / sAlu.Length}");
+            }
+            else
+            {
+                Console.WriteLine("Não existem alunos na lista.");
+            }
+        }
+
+        // Calcula a média das médias dos alunos
+        static void CalcularMediaMedias(sAluno[] sAlu)
+        {
+            // Verifica se há alunos na lista
+            if (sAlu.Length > 0)
+            {
+                float somaMedias = 0;
+
+                // Itera sobre cada aluno na lista
+                foreach (var aluno in sAlu)
+                {
+                    // Soma as médias de todos os alunos
+                    somaMedias += aluno.medAlu;
+                }
+                // Calcula a média das médias
+                Console.WriteLine($"A média das médias dos alunos é: {somaMedias/sAlu.Length}");
+            }
+            else
+            {
+                Console.WriteLine("Não existem alunos na lista.");
+            }
+        }
+
+        // Conta quantos alunos têm saldo negativo
+        static void ContarAlunosComSaldoNegativo(sAluno[] sAlu)
+        {
+            // Verifica se há alunos na lista
+            if (sAlu.Length > 0)
+            {
+                int contador = 0;
+
+                // Itera sobre cada aluno na lista
+                foreach (var aluno in sAlu)
+                {
+                    // Verifica se o saldo do aluno é negativo e incrementa o contador
+                    if (aluno.salAlu < 0)
+                    {
+                        contador++;
+                    }
+                }
+
+                // Número de alunos com saldo negativo
+                Console.WriteLine($"O número de alunos com saldo negativo é: {contador}");
+            }
+            else
+            {
+                Console.WriteLine("Não existem alunos na lista.");
+            }
+        }
+
+        // Calcula a percentagem de alunos que já tiveram dívidas
+        static void CalcularPercentagemAlunosComDividas(sAluno[] sAlu)
+        {
+            // Verifica se há alunos na lista
+            if (sAlu.Length > 0)
+            {
+
+                int alunosComDividas = 0;
+
+                // Itera sobre cada aluno na lista
+                foreach (var aluno in sAlu)
+                {
+                    // Verifica se o aluno já teve dívidas e incrementa o contador
+                    if (aluno.teveDividas)
+                    {
+                        alunosComDividas++;
+                    }
+                }
+                // Calcula a percentagem de alunos com dívidas
+                float percentagemAlunosDividas = (float)alunosComDividas / sAlu.Length * 100;
+                Console.WriteLine($"A percentagem de alunos com dívidas é: {percentagemAlunosDividas:F2}%");
+            }
+            else
+            {
+                Console.WriteLine("Não existem alunos na lista.");
+            }
+        }
+
     }
 }
