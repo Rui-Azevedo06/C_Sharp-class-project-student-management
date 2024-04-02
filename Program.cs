@@ -48,8 +48,21 @@ namespace Gestao_de_Alunos
         // Método para verificar se há uma dívida no próximo mês
         public bool DividaProxima(int mesAtual)
         {
-            return !mesesParaPagar[mesAtual + 1].estadoPagamento;
+            int proximoMes = mesAtual + 1;
+
+            // Verifica se o próximo mês existe na lista de mesesParaPagar
+            if (proximoMes < mesesParaPagar.Length)
+            {
+                // Verifica se o estado de pagamento do próximo mês é falso (ou seja, há uma dívida)
+                if (!mesesParaPagar[proximoMes].estadoPagamento)
+                {
+                    return true; // Há uma dívida no próximo mês
+                }
+            }
+
+            return false; // Não há dívida no próximo mês
         }
+
     }
 
     class Program
@@ -122,6 +135,8 @@ namespace Gestao_de_Alunos
 
                     case 10:
                         Console.Clear(); // Limpa a Consola
+                        Console.WriteLine("********** Melhor / Pior Aluno **********");
+                        MelhorPiorAluno(sAlu); // Chama a função para carregar saldo de um aluno
                         break;
 
                     case 11:
