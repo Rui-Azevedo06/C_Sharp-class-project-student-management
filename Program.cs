@@ -141,6 +141,7 @@ namespace Gestao_de_Alunos
 
                     case 11:
                         Console.Clear(); // Limpa a Consola
+                        AlunoSemDividas(sAlu);
                         break;
 
                     case 12:
@@ -724,6 +725,21 @@ namespace Gestao_de_Alunos
             // Exibe o melhor e pior aluno
             Console.WriteLine($"Melhor aluno: {sAlu[indiceMelhorAluno].nomAlu}, Média: {melhorMedia}");
             Console.WriteLine($"Pior aluno: {sAlu[indicePiorAluno].nomAlu}, Média: {piorMedia}");
+        }
+
+        // Exibe os alunos que nunca tiveram dívidas
+        static void AlunoSemDividas(sAluno[] sAlu)
+        {
+            // Itera sobre todos os alunos
+            for (int i = 0; i < sAlu.Length; i++)
+            {
+                // Verifica se o aluno não teve dívidas
+                if (!sAlu[i].teveDividas)
+                {
+                    // Mostra as informações do aluno
+                    MostrarAlunos(sAlu, 0);
+                }
+            }
         }
     }
 }
