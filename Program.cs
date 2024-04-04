@@ -302,7 +302,7 @@ namespace Gestao_de_Alunos
 
         // Mostra informações detalhadas de um aluno
         static void MostrarInformacaoAluno(sAluno reg, ref int flag)
-        { 
+        {
             // flag = 0 (consulta de baixo nivel no aluno)
             if (flag == 0)
             {
@@ -312,7 +312,7 @@ namespace Gestao_de_Alunos
                 $"Idade: {reg.idaAlu} anos " +
                 $"Média de Notas: {reg.medAlu} valores"
                 );
-            } 
+            }
             else if (flag == 1)
             {
                 // flag = 1 (consulta de alto nível no aluno)
@@ -615,7 +615,7 @@ namespace Gestao_de_Alunos
         static void AlunosComDividas(sAluno[] sAlu)
         {
             bool existiuDividas = false;
-            
+
             // Iterar sobre todos os alunos 
             for (int i = 0; i < sAlu.Length; i++)
             {
@@ -646,7 +646,7 @@ namespace Gestao_de_Alunos
                 }
             }
 
-            if(!existiuDividas)
+            if (!existiuDividas)
                 Console.WriteLine($"Nenhum aluno teve dividas.");
         }
 
@@ -696,7 +696,7 @@ namespace Gestao_de_Alunos
             }
         }
 
-        // Mostra qual é o melhor e o pior aluno
+        // Mostra qual é o melhor e o pior aluno sem dividas
         static void MelhorPiorAluno(sAluno[] sAlu)
         {
             // Indices para saber as posições dos alunos
@@ -803,7 +803,7 @@ namespace Gestao_de_Alunos
                     somaIdades += aluno.idaAlu;
                 }
                 // Calcula a média das idades 
-                Console.WriteLine($"A média das idades dos alunos é: { somaIdades / sAlu.Length}");
+                Console.WriteLine($"A média das idades dos alunos é: {somaIdades / sAlu.Length}");
             }
             else
             {
@@ -826,7 +826,7 @@ namespace Gestao_de_Alunos
                     somaMedias += aluno.medAlu;
                 }
                 // Calcula a média das médias
-                Console.WriteLine($"A média das médias dos alunos é: {somaMedias/sAlu.Length}");
+                Console.WriteLine($"A média das médias dos alunos é: {somaMedias / sAlu.Length}");
             }
             else
             {
